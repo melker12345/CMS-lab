@@ -7,8 +7,8 @@
 
 import * as React from "react"
 import { useStaticQuery, graphql } from "gatsby"
-
 import Header from "./header"
+import Navigation from "./navigation"
 import "./layout.css"
 
 const Layout = ({ children }) => {
@@ -24,24 +24,25 @@ const Layout = ({ children }) => {
 
   return (
     <>
+      <Navigation />
       <Header siteTitle={data.site.siteMetadata?.title || `Title`} />
       <div
         style={{
           margin: `0 auto`,
-          maxWidth: `var(--size-content)`,
-          padding: `var(--size-gutter)`,
+          maxWidth: 1200,
+          padding: `2rem`,
         }}
       >
         <main>{children}</main>
         <footer
           style={{
-            marginTop: `var(--space-5)`,
-            fontSize: `var(--font-sm)`,
+            marginTop: `4rem`,
+            textAlign: `center`,
+            padding: `2rem`,
+            borderTop: `1px solid #eee`,
           }}
         >
-          © {new Date().getFullYear()} &middot; Built with
-          {` `}
-          <a href="https://www.gatsbyjs.com">Gatsby</a>
+          {new Date().getFullYear()} {data.site.siteMetadata?.title}. All rights reserved.
         </footer>
       </div>
     </>
