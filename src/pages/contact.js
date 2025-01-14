@@ -4,7 +4,7 @@ import Layout from "../components/layout"
 import Seo from "../components/seo"
 
 const ContactPage = ({ data }) => {
-  const contact = data.contentfulContactPage
+  const contact = data.contentfulContact
 
   return (
     <Layout>
@@ -86,8 +86,8 @@ const ContactPage = ({ data }) => {
 }
 
 export const query = graphql`
-  query ContactPageQuery {
-    contentfulContactPage {
+  query ContactQuery {
+    contentfulContact {
       description {
         description
       }

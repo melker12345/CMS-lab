@@ -3,8 +3,8 @@ import styled from "styled-components";
 const HomePageGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  gap: 2rem;
-  margin: 4rem auto;
+  gap: 4rem;
+  margin: 5rem auto;
   max-width: 1200px;
 
   & > div:nth-child(odd) {

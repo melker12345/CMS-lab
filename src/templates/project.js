@@ -19,13 +19,16 @@ const ProjectTemplate = ({ data }) => {
             style={{ borderRadius: "8px", marginBottom: "2rem" }}
           />
         )}
+
         <h1 style={{ marginBottom: "1rem" }}>{project.title}</h1>
+
         <div
           dangerouslySetInnerHTML={{
             __html: project.description.description,
           }}
           style={{ marginBottom: "2rem" }}
         />
+
         {project.projectUrl && (
           <a
             href={project.projectUrl}

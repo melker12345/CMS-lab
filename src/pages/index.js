@@ -26,6 +26,11 @@ const ImageContainer = styled.div`
   width: 100%;
   height: 450px;
   overflow: hidden;
+
+  .gatsby-image-wrapper {
+    transition: opacity 0.3s ease-in-out;
+    opacity: ${({ isVideoVisible }) => (isVideoVisible ? 0 : 1)};
+  }
 `;
 
 const VideoOverlay = styled.video`
@@ -35,7 +40,9 @@ const VideoOverlay = styled.video`
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: ${({ isVisible }) => (isVisible ? "block" : "none")};
+  opacity: ${({ isVisible }) => (isVisible ? 1 : 0)};
+  transition: opacity 0.3s ease-in-out;
+  pointer-events: none;
 `;
 
 const Title = styled.h3`
@@ -55,18 +62,24 @@ const IndexPage = ({ data }) => {
   const HomeProjects = data.allContentfulHomePageCard.nodes;
   const [selectedProject, setSelectedProject] = useState(null);
   const [hoveredCardIndex, setHoveredCardIndex] = useState(null);
-  const [showVideoIndex, setShowVideoIndex] = useState(null); // Index of video to display
+  const [showVideoIndex, setShowVideoIndex] = useState(null);
+  const [videoRefs] = useState(() => Array(HomeProjects.length).fill(null).map(() => React.createRef()));
 
   const HomePage = data.contentfulHomePage;
-  const HomePageImage = getImage(HomePage?.profileImage)
+  const HomePageImage = getImage(HomePage?.profileImage);
 
   const handleMouseEnter = (index) => {
     setHoveredCardIndex(index);
+    
+    // Reset video to start
+    if (videoRefs[index].current) {
+      videoRefs[index].current.currentTime = 0;
+    }
 
-    // Delay showing the video by 0.05s
+    // Delay showing the video
     setTimeout(() => {
       setShowVideoIndex(index);
-    }, 50); // 50ms delay
+    }, 50);
   };
 
   const handleMouseLeave = () => {
@@ -76,7 +89,7 @@ const IndexPage = ({ data }) => {
 
   return (
     <Layout>
-      <div style={{ maxWidth: 800, margin: "0 auto", padding: "2rem" }}>
+      <div style={{ maxWidth: 800, margin: "0 auto", padding: "2rem", backgroundColor: "rgba(0, 0, 0, 0.1" }}>
         <h1 style={{ textAlign: "center", marginBottom: "2rem" }}></h1>
         <div style={{ display: "flex", gap: "2rem", alignItems: "flex-start" }}>
           {HomePageImage && (
@@ -112,9 +125,10 @@ const IndexPage = ({ data }) => {
               onMouseEnter={() => handleMouseEnter(index)}
               onMouseLeave={handleMouseLeave}
             >
-              <ImageContainer>
+              <ImageContainer isVideoVisible={showVideoIndex === index}>
                 <GatsbyImage image={image} alt={project.title} />
                 <VideoOverlay
+                  ref={videoRefs[index]}
                   isVisible={showVideoIndex === index} // Show video only when the delay is complete
                   src={videoUrl}
                   autoPlay
