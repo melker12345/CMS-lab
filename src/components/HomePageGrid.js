@@ -64,7 +64,7 @@ const HomePageGrid = ({ children }) => {
         }
         
         // Otherwise, it's a HomePageCard, use internal link
-        const slug = project.title.toLowerCase().replace(/\s+/g, '-');
+        const slug = project.slug;
         return (
           <StyledLink to={`/project/${slug}`}>
             {child}

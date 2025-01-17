@@ -5,7 +5,7 @@ import Layout from "../components/layout"
 import Seo from "../components/seo"
 
 const ProjectTemplate = ({ data }) => {
-  const project = data.contentfulProject
+  const project = data.contentfulHomePageCard
   const projectImage = getImage(project.image)
 
   return (
@@ -28,24 +28,6 @@ const ProjectTemplate = ({ data }) => {
           }}
           style={{ marginBottom: "2rem" }}
         />
-
-        {project.projectUrl && (
-          <a
-            href={project.projectUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              background: "var(--color-primary)",
-              color: "white",
-              padding: "0.75rem 1.5rem",
-              borderRadius: "4px",
-              textDecoration: "none",
-              display: "inline-block",
-            }}
-          >
-            Visit Project
-          </a>
-        )}
       </article>
     </Layout>
   )
@@ -53,9 +35,8 @@ const ProjectTemplate = ({ data }) => {
 
 export const query = graphql`
   query ProjectQuery($slug: String!) {
-    contentfulProject(id: { eq: $slug }) {
+    contentfulHomePageCard(slug: { eq: $slug }) {
       title
-      projectUrl
       description {
         description
       }

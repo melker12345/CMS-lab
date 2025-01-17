@@ -48,7 +48,7 @@ exports.createPages = async ({ graphql, actions }) => {
   projectResult.data.allContentfulHomePageCard.nodes.forEach(node => {
     createPage({
       path: `/project/${node.slug}`,
-      component: path.resolve(`./src/templates/project.js`),
+      component: path.resolve(`./src/templates/Project.js`),
       context: {
         slug: node.slug,
       },

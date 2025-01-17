@@ -80,7 +80,7 @@ export const query = graphql`
       nodes {
         id
         title
-        slug
+        projectUrl
         description {
           description
         }
@@ -92,7 +92,6 @@ export const query = graphql`
             formats: [AUTO, WEBP]
           )
         }
-        projectUrl
       }
     }
   }
