@@ -33,25 +33,24 @@ exports.createPages = async ({ graphql, actions }) => {
     })
   })
 
-  // Create pages only for HomePageCards
+  // Create pages for HomePageCards using slug
   const projectResult = await graphql(`
     query {
       allContentfulHomePageCard {
         nodes {
           id
-          title
+          slug
         }
       }
     }
   `)
 
   projectResult.data.allContentfulHomePageCard.nodes.forEach(node => {
-    const slug = node.title.toLowerCase().replace(/\s+/g, '-')
     createPage({
-      path: `/project/${slug}`,
-      component: path.resolve(`./src/templates/project-template.js`),
+      path: `/project/${node.slug}`,
+      component: path.resolve(`./src/templates/project.js`),
       context: {
-        id: node.id,
+        slug: node.slug,
       },
     })
   })
