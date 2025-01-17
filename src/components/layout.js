@@ -29,14 +29,15 @@ const Layout = ({ children }) => {
       <div
         style={{
           margin: `0 auto`,
+          padding: `0 2rem`,
           maxWidth: 1200,
-          padding: `2rem`,
         }}
       >
         <main>{children}</main>
+      </div>
         <footer
           style={{
-            marginTop: `4rem`,
+            marginTop: `0`,
             textAlign: `center`,
             padding: `2rem`,
             borderTop: `1px solid #eee`,
@@ -44,7 +45,6 @@ const Layout = ({ children }) => {
         >
           {new Date().getFullYear()} {data.site.siteMetadata?.title}. All rights reserved.
         </footer>
-      </div>
     </>
   )
 }

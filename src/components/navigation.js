@@ -31,6 +31,11 @@ const Navigation = () => {
           </Link>
         </li>
         <li>
+          <Link to="/blog" style={{ color: `white`, textDecoration: `none` }}>
+            Blog
+          </Link>
+        </li>
+        <li>
           <Link to="/about" style={{ color: `white`, textDecoration: `none` }}>
             About
           </Link>

@@ -12,28 +12,46 @@ const path = require("path")
 exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions
 
-  const result = await graphql(`
+  // Create blog post pages
+  const blogResult = await graphql(`
     query {
-      allContentfulProject {
+      allContentfulBlogPosts {
         nodes {
-          slug
+          id
         }
       }
     }
   `)
 
-  if (result.errors) {
-    throw result.errors
-  }
-
-  const projects = result.data.allContentfulProject.nodes
-
-  projects.forEach(project => {
+  blogResult.data.allContentfulBlogPosts.nodes.forEach(node => {
     createPage({
-      path: `/project/${project.slug}`,
-      component: path.resolve("./src/templates/project.js"),
+      path: `/blog/${node.id}`,
+      component: path.resolve(`./src/templates/blog-post.js`),
       context: {
-        slug: project.slug,
+        id: node.id,
+      },
+    })
+  })
+
+  // Create pages only for HomePageCards
+  const projectResult = await graphql(`
+    query {
+      allContentfulHomePageCard {
+        nodes {
+          id
+          title
+        }
+      }
+    }
+  `)
+
+  projectResult.data.allContentfulHomePageCard.nodes.forEach(node => {
+    const slug = node.title.toLowerCase().replace(/\s+/g, '-')
+    createPage({
+      path: `/project/${slug}`,
+      component: path.resolve(`./src/templates/project-template.js`),
+      context: {
+        id: node.id,
       },
     })
   })

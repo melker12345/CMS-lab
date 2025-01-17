@@ -53,7 +53,7 @@ const ProjectTemplate = ({ data }) => {
 
 export const query = graphql`
   query ProjectQuery($slug: String!) {
-    contentfulProject(slug: { eq: $slug }) {
+    contentfulProject(id: { eq: $slug }) {
       title
       projectUrl
       description {

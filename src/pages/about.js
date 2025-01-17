@@ -6,7 +6,7 @@ import Seo from "../components/seo"
 
 const AboutPage = ({ data }) => {
   const about = data.contentfulAboutPage
-  const profileImage = getImage(about?.profileImage)
+  const img = getImage(about?.image)
 
   return (
     <Layout>
@@ -14,10 +14,10 @@ const AboutPage = ({ data }) => {
       <div style={{ maxWidth: 800, margin: "0 auto", padding: "2rem" }}>
         <h1 style={{ textAlign: "center", marginBottom: "2rem" }}>About Me</h1>
         <div style={{ display: "flex", gap: "2rem", alignItems: "flex-start" }}>
-          {profileImage && (
+          {img && (
             <div style={{ flex: "0 0 300px" }}>
               <GatsbyImage
-                image={profileImage}
+                image={img}
                 alt={about?.title || "Profile"}
                 style={{ borderRadius: "8px" }}
               />
@@ -45,7 +45,7 @@ export const query = graphql`
       description {
         description
       }
-      profileImage {
+      image {
         gatsbyImageData(width: 600, quality: 90)
       }
     }
