@@ -34,8 +34,8 @@ const ProjectTemplate = ({ data }) => {
 }
 
 export const query = graphql`
-  query ProjectQuery($slug: String!) {
-    contentfulHomePageCard(slug: { eq: $slug }) {
+  query ProjectQuery($id: String!) {
+    contentfulHomePageCard(id: { eq: $id }) {
       title
       description {
         description
