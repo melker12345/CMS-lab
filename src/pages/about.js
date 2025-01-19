@@ -3,6 +3,14 @@ import { graphql } from "gatsby"
 import { GatsbyImage, getImage } from "gatsby-plugin-image"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
+import {
+  Container,
+  Title,
+  FlexContainer,
+  ImageWrapper,
+  ContentWrapper,
+  Description
+} from "../components/ProfileSection"
 
 const AboutPage = ({ data }) => {
   const about = data.contentfulAboutPage
@@ -11,29 +19,28 @@ const AboutPage = ({ data }) => {
   return (
     <Layout>
       <Seo title="About Me" />
-      <div style={{ maxWidth: 800, margin: "0 auto", padding: "2rem" }}>
-        <h1 style={{ textAlign: "center", marginBottom: "2rem" }}>About Me</h1>
-        <div style={{ display: "flex", gap: "2rem", alignItems: "flex-start" }}>
+      <Container>
+        <Title>About Me</Title>
+        <FlexContainer>
           {img && (
-            <div style={{ flex: "0 0 300px" }}>
+            <ImageWrapper>
               <GatsbyImage
                 image={img}
                 alt={about?.title || "Profile"}
                 style={{ borderRadius: "8px" }}
               />
-            </div>
+            </ImageWrapper>
           )}
-          <div>
-            <h2 style={{ marginBottom: "1rem" }}>{about?.title}</h2>
-            <div
+          <ContentWrapper>
+            <h2>{about?.title}</h2>
+            <Description
               dangerouslySetInnerHTML={{
                 __html: about?.description?.description,
               }}
-              style={{ lineHeight: 1.6 }}
             />
-          </div>
-        </div>
-      </div>
+          </ContentWrapper>
+        </FlexContainer>
+      </Container>
     </Layout>
   )
 }

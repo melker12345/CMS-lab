@@ -6,6 +6,13 @@ import Seo from "../components/seo"
 import ProjectCard from "../components/ProjectCard"
 import HomePageGrid from "../components/HomePageGrid"
 import styled from "styled-components"
+import {
+  Container,
+  FlexContainer,
+  ImageWrapper,
+  ContentWrapper,
+  Description
+} from "../components/ProfileSection"
 
 const IndexPage = ({ data }) => {
   const HomePage = data.contentfulHomePage
@@ -20,29 +27,27 @@ const IndexPage = ({ data }) => {
         description={HomePage?.description?.description}
         image={seoImageUrl}
       />
-      <div style={{ maxWidth: 800, margin: "0 auto", padding: "2rem", backgroundColor: "rgba(0, 0, 0, 0.1" }}>
-        <h1 style={{ textAlign: "center", marginBottom: "2rem" }}></h1>
-        <div style={{ display: "flex", gap: "2rem", alignItems: "flex-start" }}>
+      <Container $withBackground>
+        <FlexContainer>
           {HomePageImage && (
-            <div style={{ flex: "0 0 300px" }}>
+            <ImageWrapper>
               <GatsbyImage
                 image={HomePageImage}
                 alt={HomePage?.title || "Profile"}
                 style={{ borderRadius: "8px" }}
               />
-            </div>
+            </ImageWrapper>
           )}
-          <div>
-            <h2 style={{ marginBottom: "1rem" }}>{HomePage?.title}</h2>
-            <div
+          <ContentWrapper>
+            <h2>{HomePage?.title}</h2>
+            <Description
               dangerouslySetInnerHTML={{
                 __html: HomePage?.description?.description,
               }}
-              style={{ lineHeight: 1.6 }}
             />
-          </div>
-        </div>
-      </div>
+          </ContentWrapper>
+        </FlexContainer>
+      </Container>
 
       <HomePageGrid>
         {homePageCards.map((project) => (
