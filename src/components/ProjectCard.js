@@ -31,7 +31,7 @@ const VideoOverlay = styled.video`
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: ${({ isHovered }) => (isHovered ? "block" : "none")};
+  display: ${({ $isHovered }) => ($isHovered ? "block" : "none")};
 `;
 
 const Content = styled.div`
@@ -52,7 +52,7 @@ const Description = styled.p`
 
 const ProjectCard = ({ project }) => {
   const [isHovered, setIsHovered] = useState(false);
-  const image = getImage(project.image);
+  const image = project.image ? getImage(project.image) : null;
   const hasVideo = project.previewVideo?.file?.url;
 
   return (
@@ -61,14 +61,26 @@ const ProjectCard = ({ project }) => {
       onMouseLeave={() => setIsHovered(false)}
     >
       <ImageContainer>
-        <GatsbyImage
-          image={image}
-          alt={project.title}
-          style={{ height: "100%" }}
-        />
+        {image ? (
+          <GatsbyImage
+            image={image}
+            alt={project.title}
+            style={{ height: "100%" }}
+          />
+        ) : (
+          <div style={{ 
+            height: "100%", 
+            backgroundColor: "#f0f0f0",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center"
+          }}>
+            <span style={{ color: "#666" }}>{project.title}</span>
+          </div>
+        )}
         {hasVideo && (
           <VideoOverlay
-            isHovered={isHovered}
+            $isHovered={isHovered}
             src={project.previewVideo.file.url}
             autoPlay
             loop

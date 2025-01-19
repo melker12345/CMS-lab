@@ -107,7 +107,9 @@ const BlogPostTemplate = ({ data }) => {
         </CoverImageContainer>
 
         <BlogContent>
-          <ReactMarkdown>{post.content.content}</ReactMarkdown>
+          {post.content?.content && (
+            <ReactMarkdown>{post.content.content}</ReactMarkdown>
+          )}
         </BlogContent>
       </BlogPostContainer>
     </Layout>

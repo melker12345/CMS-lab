@@ -4,6 +4,7 @@ import { GatsbyImage, getImage } from "gatsby-plugin-image"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 import styled from "styled-components"
+import ReactMarkdown from 'react-markdown'
 
 const BlogPostContainer = styled.article`
   max-width: 800px;
@@ -60,15 +61,46 @@ const BlogContent = styled.div`
     font-style: italic;
     color: #555;
   }
+
+  strong {
+    font-weight: 600;
+  }
+
+  code {
+    background-color: #f4f4f4;
+    padding: 0.2em 0.4em;
+    border-radius: 3px;
+    font-family: monospace;
+    font-size: 0.9em;
+  }
+
+  pre {
+    background-color: #f4f4f4;
+    padding: 1rem;
+    border-radius: 5px;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+
+    code {
+      background-color: transparent;
+      padding: 0;
+      border-radius: 0;
+    }
+  }
 `;
 
 const BlogPostTemplate = ({ data }) => {
   const post = data.contentfulBlogPosts
-  const coverImage = getImage(post.coverImage)
+  const coverImage = post?.coverImage?.gatsbyImageData ? getImage(post.coverImage) : null
+  const seoImageUrl = post?.coverImage?.file?.url
 
   return (
     <Layout>
-      <Seo title={post.title} description={post.excerpt} />
+      <Seo 
+        title={post.title} 
+        description={post.excerpt}
+        image={seoImageUrl}
+      />
       <BlogPostContainer>
         <BlogHeader>
           <BlogTitle>{post.title}</BlogTitle>
@@ -81,18 +113,20 @@ const BlogPostTemplate = ({ data }) => {
           </PublishDate>
         </BlogHeader>
 
-        <CoverImageContainer>
-          <GatsbyImage 
-            image={coverImage} 
-            alt={post.title}
-          />
-        </CoverImageContainer>
+        {coverImage && (
+          <CoverImageContainer>
+            <GatsbyImage 
+              image={coverImage} 
+              alt={post.title}
+            />
+          </CoverImageContainer>
+        )}
 
-        <BlogContent
-          dangerouslySetInnerHTML={{
-            __html: post.content.childMarkdownRemark.html
-          }}
-        />
+        <BlogContent>
+          {post.content?.content && (
+            <ReactMarkdown>{post.content.content}</ReactMarkdown>
+          )}
+        </BlogContent>
       </BlogPostContainer>
     </Layout>
   )
@@ -113,7 +147,11 @@ export const query = graphql`
           quality: 85
           placeholder: BLURRED
           formats: [AUTO, WEBP]
+          layout: FULL_WIDTH
         )
+        file {
+          url
+        }
       }
     }
   }

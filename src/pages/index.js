@@ -9,15 +9,16 @@ import styled from "styled-components"
 
 const IndexPage = ({ data }) => {
   const HomePage = data.contentfulHomePage
-  const HomePageImage = getImage(HomePage?.profileImage)
+  const HomePageImage = HomePage?.profileImage?.gatsbyImageData ? getImage(HomePage.profileImage) : null
   const homePageCards = data.allContentfulHomePageCard.nodes
+  const seoImageUrl = HomePage?.profileImage?.file?.url
 
   return (
     <Layout>
       <Seo 
         title={HomePage?.title || "Home"}
         description={HomePage?.description?.description}
-        image={HomePageImage?.images?.fallback?.src}
+        image={seoImageUrl}
       />
       <div style={{ maxWidth: 800, margin: "0 auto", padding: "2rem", backgroundColor: "rgba(0, 0, 0, 0.1" }}>
         <h1 style={{ textAlign: "center", marginBottom: "2rem" }}></h1>
@@ -63,7 +64,15 @@ export const query = graphql`
         description
       }
       profileImage {
-        gatsbyImageData(width: 600, quality: 90)
+        gatsbyImageData(
+          width: 600
+          quality: 90
+          layout: CONSTRAINED
+          placeholder: BLURRED
+        )
+        file {
+          url
+        }
       }
     }
     allContentfulHomePageCard {
@@ -75,7 +84,15 @@ export const query = graphql`
           description
         }
         image {
-          gatsbyImageData(quality: 100)
+          gatsbyImageData(
+            width: 800
+            quality: 100
+            layout: CONSTRAINED
+            placeholder: BLURRED
+          )
+          file {
+            url
+          }
         }
         previewVideo {
           file {
